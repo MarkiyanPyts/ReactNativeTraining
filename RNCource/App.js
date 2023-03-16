@@ -18,7 +18,7 @@ export default function App() {
 
   function addGoalHandler() {
     console.log("Add Goal Handler", enteredGoal);
-    setCourseGoals((currentGoals) => [...currentGoals, {text: enteredGoal, key: Math.random().toString()}]);
+    setCourseGoals((currentGoals) => [...currentGoals, {text: enteredGoal, id: Math.random().toString()}]);
   }
 
   return (
@@ -34,6 +34,7 @@ export default function App() {
       <View style={styles.goalsContainer}>
         <FlatList
           data={courseGoals}
+          keyExtractor={(item, index) => item.id}
           renderItem={(itemData) => {
             return (
               <View style={styles.goalItem}>
