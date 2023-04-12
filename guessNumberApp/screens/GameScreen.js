@@ -1,10 +1,12 @@
-import {Text, View, StyleSheet, Alert} from 'react-native';
+import {View, StyleSheet, Alert} from 'react-native';
 import Title from '../components/ui/Title';
 import {useEffect, useState, useMemo} from 'react';
 import NumberContainer from '../components/game/NumberContainer';
 import PrimaryButton from '../components/ui/PrimaryButton';
 import Card from '../components/ui/Card';
 import InstructionText from '../components/ui/InstructionText';
+
+import {Ionicons} from '@expo/vector-icons';
 
 
 function generateRandomBetween(min, max, exclude) {
@@ -56,14 +58,22 @@ const GameScreen = ({userNumber, onGameOver}) => {
         <NumberContainer>{currentGuess}</NumberContainer>
 
         <Card>
-            <InstructionText>Higher Or Lower</InstructionText>
-            <View>
-                <PrimaryButton onPress={() => {
-                    nextGuessHandler('lower');
-                }}>-</PrimaryButton>
-                <PrimaryButton onPress={() => {
-                    nextGuessHandler('greater');
-                }}>+</PrimaryButton>
+            <InstructionText style={styles.instructionText}>Higher Or Lower</InstructionText>
+            <View style={styles.buttonsContainer}>
+                <View style={styles.buttonContainer}>
+                    <PrimaryButton onPress={() => {
+                        nextGuessHandler('lower');
+                    }}>
+                        <Ionicons name="md-remove" size={24} color="white" />
+                    </PrimaryButton>
+                </View>
+                <View style={styles.buttonContainer}>
+                    <PrimaryButton onPress={() => {
+                        nextGuessHandler('greater');
+                    }}>
+                        <Ionicons name="md-add" size={24} color="white" />
+                    </PrimaryButton>
+                </View>
             </View>
         </Card>
         
@@ -75,6 +85,15 @@ const styles = StyleSheet.create({
     screen: {
         flex: 1,
         padding: 24,
+    },
+    buttonsContainer: {
+        flexDirection: "row",
+    },
+    buttonContainer: {
+        flex: 1,
+    },
+    instructionText: {
+        marginBottom: 12
     }
 });
 

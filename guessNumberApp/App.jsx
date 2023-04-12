@@ -6,6 +6,7 @@ import GameOverScreen from "./screens/GameOverScreen";
 import {LinearGradient} from "expo-linear-gradient";
 import {useState} from "react";
 import Colors from "./constants/colors";
+import {useFonts} from "expo-font";
 
 export default function App() {
   const [userNumber, setUserNumber] = useState();
@@ -15,6 +16,11 @@ export default function App() {
     setUserNumber(number);
     setGameIsOver(false);
   }
+
+  useFonts({
+    'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
+    'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf'),
+  })
 
   let screen = <StartGameScreen onPickedNumber={pickedNumberHandler} />;
 
