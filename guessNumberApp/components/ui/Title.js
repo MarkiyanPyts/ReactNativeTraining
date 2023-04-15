@@ -12,12 +12,13 @@ const styles = StyleSheet.create({
     title: {
         fontFamily: 'open-sans-bold',
         fontSize: 24,
-        //fontWeight: 'bold',
-        color: 'white',
+        maxWidth: '80%',
+        color: Colors.accent500,
         textAlign: 'center',
         borderWidth: 2,
-        borderColor: 'white',
+        borderColor: Colors.accent500,
         padding: 12,
+        width: 300
     }
 });
 
