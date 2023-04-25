@@ -5,14 +5,37 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ManageExpence from './screens/ManageExpence';
 import RecentExpences from './screens/RecentExpances';
 import AllExpances from './screens/AllExpances';
+import { GlobalStyles } from './constants/styles';
+import {Ionicons} from '@expo/vector-icons';
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
 
 function ExpancesOverview() {
-  return <BottomTabs.Navigator>
-    <BottomTabs.Screen name="RecentExpences" component={RecentExpences} />
-    <BottomTabs.Screen name="All Expences" component={AllExpances} />
+  return <BottomTabs.Navigator screenOptions={{
+    headerStyle: {
+      backgroundColor: GlobalStyles.colors.primary500,  
+    },
+    headerTintColor: 'white',
+    tabBarStyle: {
+      backgroundColor: GlobalStyles.colors.primary500,
+    },
+    tabBarActiveTintColor: GlobalStyles.colors.accent500,
+  }}>
+    <BottomTabs.Screen name="RecentExpences" component={RecentExpences} options={{
+      title: 'Recent Expences',
+      tabBarLabel: 'Recent Expences',
+      tabBarIcon: ({color, size}) => {
+        return <Ionicons name="hourglass" size={size} color={color} />
+      }
+    }} />
+    <BottomTabs.Screen name="All Expences" component={AllExpances} options={{
+      title: 'All Expences',
+      tabBarLabel: 'All Expences',
+      tabBarIcon: ({color, size}) => {
+        return <Ionicons name="calendar" size={size} color={color} />
+      }
+    }}/>
   </BottomTabs.Navigator>
 }
 
@@ -22,7 +45,9 @@ export default function App() {
       <StatusBar style="auto" />
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="ExpancesOverview" component={ExpancesOverview} />
+          <Stack.Screen name="ExpancesOverview" component={ExpancesOverview} options={{
+            headerShown: false
+          }} />
           <Stack.Screen name="ManageExpence" component={ManageExpence} />
         </Stack.Navigator>
       </NavigationContainer>
