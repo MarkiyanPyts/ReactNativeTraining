@@ -7,6 +7,7 @@ import RecentExpences from './screens/RecentExpances';
 import AllExpances from './screens/AllExpances';
 import { GlobalStyles } from './constants/styles';
 import {Ionicons} from '@expo/vector-icons';
+import IconButton from './components/UI/IconButton';
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
@@ -21,6 +22,7 @@ function ExpancesOverview() {
       backgroundColor: GlobalStyles.colors.primary500,
     },
     tabBarActiveTintColor: GlobalStyles.colors.accent500,
+    headerRight: ({tintColor}) => <IconButton icon="add" size={24} color={tintColor} onPress={() => {}} />,
   }}>
     <BottomTabs.Screen name="RecentExpences" component={RecentExpences} options={{
       title: 'Recent Expences',

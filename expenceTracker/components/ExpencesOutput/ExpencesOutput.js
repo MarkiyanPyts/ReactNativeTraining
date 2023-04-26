@@ -1,4 +1,5 @@
-import {View, FlatList} from 'react-native';
+import {View, FlatList, StyleSheet} from 'react-native';
+import { GlobalStyles } from '../../constants/styles';
 import ExpencesList from './ExpencesList';
 import ExpencesSummury from './ExpencesSummury';
 
@@ -32,14 +33,48 @@ const DUMMY_EXPENCES = [
         description: 'New Desk (Glass)',
         amount: 100,
         date: new Date('2022-04-19'),
-    }
+    },
+    {
+        id: 'e6',
+        description: 'New Desk (Metal)',
+        amount: 200,
+        date: new Date('2022-05-19'),
+    },
+    {
+        id: 'e7',
+        description: 'New Desk (Plastic)',
+        amount: 300,
+        date: new Date('2022-06-19'),
+    },
+    {
+        id: 'e8',
+        description: 'New Desk (Paper)',
+        amount: 400,
+        date: new Date('2022-07-19'),
+    },
+    {
+        id: 'e9',
+        description: 'New Desk (Cloth)',
+        amount: 500,
+        date: new Date('2022-08-19'),
+    },
 ];
 
 function ExpencesOutput({ expences, expencesPeriod }) {
-    return <View>
+    return <View style={styles.container}>
         <ExpencesSummury expences={DUMMY_EXPENCES} periodName={expencesPeriod} />
         <ExpencesList expences={DUMMY_EXPENCES} />
     </View>
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        paddingHorizontal: 24,
+        paddingTop: 24,
+        paddingBottom: 0,
+        backgroundColor: GlobalStyles.colors.primary700,
+    }
+});
 
 export default ExpencesOutput;
