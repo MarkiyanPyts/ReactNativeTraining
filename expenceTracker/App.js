@@ -13,16 +13,20 @@ const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
 
 function ExpancesOverview() {
-  return <BottomTabs.Navigator screenOptions={{
-    headerStyle: {
-      backgroundColor: GlobalStyles.colors.primary500,  
-    },
-    headerTintColor: 'white',
-    tabBarStyle: {
-      backgroundColor: GlobalStyles.colors.primary500,
-    },
-    tabBarActiveTintColor: GlobalStyles.colors.accent500,
-    headerRight: ({tintColor}) => <IconButton icon="add" size={24} color={tintColor} onPress={() => {}} />,
+  return <BottomTabs.Navigator screenOptions={({navigation}) => {
+    return {
+      headerStyle: {
+        backgroundColor: GlobalStyles.colors.primary500,  
+      },
+      headerTintColor: 'white',
+      tabBarStyle: {
+        backgroundColor: GlobalStyles.colors.primary500,
+      },
+      tabBarActiveTintColor: GlobalStyles.colors.accent500,
+      headerRight: ({tintColor}) => <IconButton icon="add" size={24} color={tintColor} onPress={() => {
+        navigation.navigate('ManageExpence')
+      }} />,
+    }
   }}>
     <BottomTabs.Screen name="RecentExpences" component={RecentExpences} options={{
       title: 'Recent Expences',
@@ -46,11 +50,18 @@ export default function App() {
     <>
       <StatusBar style="auto" />
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{
+          headerStyle: {
+            backgroundColor: GlobalStyles.colors.primary500,
+          },
+          headerTintColor: 'white',
+        }}>
           <Stack.Screen name="ExpancesOverview" component={ExpancesOverview} options={{
             headerShown: false
           }} />
-          <Stack.Screen name="ManageExpence" component={ManageExpence} />
+          <Stack.Screen name="ManageExpence" component={ManageExpence} options={{
+            presentation: 'modal',
+          }} />
         </Stack.Navigator>
       </NavigationContainer>
     </>
