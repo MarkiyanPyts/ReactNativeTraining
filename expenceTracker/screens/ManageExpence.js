@@ -16,7 +16,7 @@ function ManageExpence({route, navigation}) {
     }, [navigation, isEditing])
 
     function deleteExpenceHandler() {
-
+        navigation.goBack();
     }
 
     function cancelHandler() {
@@ -24,7 +24,7 @@ function ManageExpence({route, navigation}) {
     }
 
     function confirmHandler() {
-
+        navigation.goBack();
     }
 
 
