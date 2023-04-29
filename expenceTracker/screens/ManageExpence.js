@@ -5,6 +5,7 @@ import { GlobalStyles } from "../constants/styles";
 import { View, StyleSheet } from "react-native";
 import Button from "../components/UI/Button";
 import { ExpenceContext } from "../store/expence-context";
+import ExpenceForm from "../components/ManageExpence/ExpenceForm";
 
 function ManageExpence({route, navigation}) {
     const expencesContext = useContext(ExpenceContext);
@@ -45,6 +46,7 @@ function ManageExpence({route, navigation}) {
 
 
     return <View style={styles.container}>
+        <ExpenceForm />
         <View style={styles.buttons}>
             <Button style={styles.button} mode={'flat'} onPress={cancelHandler}>Cancel</Button>
             <Button style={styles.button} onPress={confirmHandler}>{isEditing ? 'Update' : 'Add'}</Button>
