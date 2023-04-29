@@ -12,7 +12,7 @@ function RecentExpences() {
 
         return expence.date > date7DaysAgo;
     });
-    return <ExpencesOutput expences={recentExpences} expencesPeriod="Last 7 days" />
+    return <ExpencesOutput expences={recentExpences} expencesPeriod="Last 7 days" fallbackText="No Expences Registered for the last 7 days" />
 }
 
 export default RecentExpences;

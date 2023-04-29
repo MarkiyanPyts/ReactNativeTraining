@@ -4,7 +4,7 @@ import { ExpenceContext } from "../store/expence-context";
 
 function AllExpences() {
     const expencesCtx = useContext(ExpenceContext);
-    return <ExpencesOutput expences={expencesCtx.expences} expencesPeriod="Total" />
+    return <ExpencesOutput expences={expencesCtx.expences} expencesPeriod="Total" fallbackText="No Registered Expences Found" />
 }
 
 export default AllExpences;
