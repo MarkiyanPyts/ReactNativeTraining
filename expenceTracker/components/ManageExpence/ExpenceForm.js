@@ -1,20 +1,40 @@
 import { View, StyleSheet, Text } from 'react-native';
 import Input from './Input';
+import { useState } from 'react';
+import Button from '../UI/Button';
 
-function ExpenceForm() {
-    function amountChangeHandler(text) {
-        console.log(text);
+function ExpenceForm({submitButtonLabel, onCancel, onSubmit}) {
+    const [inputValues, setInputValues] = useState({
+        amount: '',
+        date: '',
+        description: '',
+    });
+
+    function inputChangeHandler(inputIdentifier, enteredValue) {
+        setInputValues((currentInputValues) => {
+            return {
+                ...currentInputValues,
+                [inputIdentifier]: enteredValue,
+            }
+        })
+    }
+
+    function submitHandler () {
+        console.log('submit');
     }
 
     return <View style={styles.form}>
         <Text style={styles.title}>Your Expence</Text>
         <View style={styles.inputRow}>
-            <Input 
+            <Input
                 style={styles.rowInput}
                 label="Amount" 
                 textInputConfig={{
                     keyboardType: 'decimal-pad',
-                    onChangeText: amountChangeHandler,
+                    onChangeText: (enteredValue) => {
+                        inputChangeHandler('amount', enteredValue);
+                    },
+                    value: inputValues.amount,
                 }}
             />
             <Input
@@ -23,7 +43,10 @@ function ExpenceForm() {
                 textInputConfig={{
                     placeholder: 'YYYY/MM/DD',
                     maxLength: 10,
-                    onChangeText: () => {},
+                    onChangeText: (enteredValue) => {
+                        inputChangeHandler('date', enteredValue);
+                    },
+                    value: inputValues.date,
                 }}
             />            
         </View>
@@ -32,10 +55,16 @@ function ExpenceForm() {
                 multiline: true,
                 autoCorrect: false,
                 //autoCapitalize: 'sentences',
-                onChangeText: () => {},
+                onChangeText: (enteredValue) => {
+                    inputChangeHandler('description', enteredValue);
+                },
+                value: inputValues.description,
             }} />
         </View>
-       
+        <View style={styles.buttons}>
+            <Button style={styles.button} mode={'flat'} onPress={onCancel}>Cancel</Button>
+            <Button style={styles.button} onPress={submitHandler}>{submitButtonLabel}</Button>
+        </View>
     </View>
 }
 
@@ -56,7 +85,16 @@ const styles = StyleSheet.create({
     },
     rowInput: {
         flex: 1,
-    }
+    },
+    buttons: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    button: {
+        minWidth: 120,
+        marginHorizontal: 8,
+    },
 });
 
 export default ExpenceForm;
