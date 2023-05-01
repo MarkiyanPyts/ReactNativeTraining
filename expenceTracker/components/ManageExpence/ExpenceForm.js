@@ -3,6 +3,7 @@ import Input from './Input';
 import { useState } from 'react';
 import Button from '../UI/Button';
 import { getFormattedDate } from '../../util/date';
+import { GlobalStyles } from '../../constants/styles';
 
 function ExpenceForm({submitButtonLabel, onCancel, onSubmit, defaultValues}) {
     const [inputs, setInputs] = useState({
@@ -74,7 +75,8 @@ function ExpenceForm({submitButtonLabel, onCancel, onSubmit, defaultValues}) {
         <View style={styles.inputRow}>
             <Input
                 style={styles.rowInput}
-                label="Amount" 
+                label="Amount"
+                invalid={!inputs.amount.isValid}
                 textInputConfig={{
                     keyboardType: 'decimal-pad',
                     onChangeText: (enteredValue) => {
@@ -86,6 +88,7 @@ function ExpenceForm({submitButtonLabel, onCancel, onSubmit, defaultValues}) {
             <Input
                 style={styles.rowInput}
                 label="Date"
+                invalid={!inputs.date.isValid}
                 textInputConfig={{
                     placeholder: 'YYYY/MM/DD',
                     maxLength: 10,
@@ -97,7 +100,10 @@ function ExpenceForm({submitButtonLabel, onCancel, onSubmit, defaultValues}) {
             />            
         </View>
         <View style={styles.inputRow}>
-            <Input label="Description" textInputConfig={{
+            <Input 
+                label="Description" 
+                invalid={!inputs.description.isValid}
+                textInputConfig={{
                 multiline: true,
                 autoCorrect: false,
                 //autoCapitalize: 'sentences',
@@ -107,7 +113,7 @@ function ExpenceForm({submitButtonLabel, onCancel, onSubmit, defaultValues}) {
                 value: inputs.description.value,
             }} />
         </View>
-        {formIsInvalid && <Text>Invalid Input Values - please check your entered data!</Text>}
+        {formIsInvalid && <Text style={styles.errorText}>Invalid Input Values - please check your entered data!</Text>}
         <View style={styles.buttons}>
             <Button style={styles.button} mode={'flat'} onPress={onCancel}>Cancel</Button>
             <Button style={styles.button} onPress={submitHandler}>{submitButtonLabel}</Button>
@@ -142,6 +148,11 @@ const styles = StyleSheet.create({
         minWidth: 120,
         marginHorizontal: 8,
     },
+    errorText: {
+        textAlign: 'center',
+        color: GlobalStyles.colors.error500,
+        margin: 8,
+    }
 });
 
 export default ExpenceForm;
