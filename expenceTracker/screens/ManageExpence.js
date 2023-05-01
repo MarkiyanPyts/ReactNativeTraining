@@ -11,6 +11,8 @@ function ManageExpence({route, navigation}) {
     const editedExpenceId = route.params?.expenceId;
     const isEditing = !!editedExpenceId;
 
+    const selectedExpence = expencesContext.expences.find(expence => expence.id === editedExpenceId);
+
     useLayoutEffect(() => {
         navigation.setOptions({
             title: isEditing ? 'Edit Expence' : 'Add Expence',
@@ -40,7 +42,8 @@ function ManageExpence({route, navigation}) {
         <ExpenceForm 
             onSubmit={confirmHandler}
             onCancel={cancelHandler}
-            submitButtonLabel={isEditing ? 'Update' : 'Add'} />
+            submitButtonLabel={isEditing ? 'Update' : 'Add'}
+            defaultValues={selectedExpence} />
         {isEditing && <View style={styles.deleteContainer}>
             <IconButton 
                 icon="trash"
