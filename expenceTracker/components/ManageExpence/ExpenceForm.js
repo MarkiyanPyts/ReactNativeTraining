@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Alert } from 'react-native';
 import Input from './Input';
 import { useState } from 'react';
 import Button from '../UI/Button';
@@ -22,9 +22,18 @@ function ExpenceForm({submitButtonLabel, onCancel, onSubmit, defaultValues}) {
 
     function submitHandler () {
         const expenceData = {
-            amound: +inputValues.amount,
+            amount: +inputValues.amount,
             date: new Date(inputValues.date),
             description: inputValues.description,
+        }
+
+        const amountIsVsalid = !isNaN(expenceData.amount) && expenceData.amount > 0;
+        const dateIsValid = expenceData.date.toString() !== 'Invalid Date';
+        const descriptionIsValid = expenceData.description.trim().length > 0;
+
+        if (!amountIsVsalid || !dateIsValid || !descriptionIsValid) {
+            Alert.alert('Invalid input', 'Please check your input values', [{text: 'OK'}]);
+            return;
         }
 
         onSubmit(expenceData);
