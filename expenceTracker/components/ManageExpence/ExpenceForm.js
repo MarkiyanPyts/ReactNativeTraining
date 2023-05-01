@@ -20,7 +20,13 @@ function ExpenceForm({submitButtonLabel, onCancel, onSubmit}) {
     }
 
     function submitHandler () {
-        console.log('submit');
+        const expenceData = {
+            amound: +inputValues.amount,
+            date: new Date(inputValues.date),
+            description: inputValues.description,
+        }
+
+        onSubmit(expenceData);
     }
 
     return <View style={styles.form}>

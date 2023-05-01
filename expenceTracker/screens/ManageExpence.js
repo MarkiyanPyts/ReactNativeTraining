@@ -26,26 +26,21 @@ function ManageExpence({route, navigation}) {
         navigation.goBack();
     }
 
-    function confirmHandler() {
+    function confirmHandler(expenceData) {
         if (isEditing) {
-            expencesContext.updateExpence(editedExpenceId, {
-                description: "Test2",
-                amount: 10,
-                date: new Date(),
-            });
+            expencesContext.updateExpence(editedExpenceId, expenceData);
         } else {
-            expencesContext.addExpence({
-                description: "Test",
-                amount: 100,
-                date: new Date(),
-            });
+            expencesContext.addExpence(expenceData);
         }
         navigation.goBack();
     }
 
 
     return <View style={styles.container}>
-        <ExpenceForm onCancel={cancelHandler} submitButtonLabel={isEditing ? 'Update' : 'Add'} />
+        <ExpenceForm 
+            onSubmit={confirmHandler}
+            onCancel={cancelHandler}
+            submitButtonLabel={isEditing ? 'Update' : 'Add'} />
         {isEditing && <View style={styles.deleteContainer}>
             <IconButton 
                 icon="trash"
