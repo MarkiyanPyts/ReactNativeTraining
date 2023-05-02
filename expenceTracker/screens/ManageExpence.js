@@ -5,6 +5,7 @@ import { View, StyleSheet } from "react-native";
 import Button from "../components/UI/Button";
 import { ExpenceContext } from "../store/expence-context";
 import ExpenceForm from "../components/ManageExpence/ExpenceForm";
+import { storeExpence } from "../util/http";
 
 function ManageExpence({route, navigation}) {
     const expencesContext = useContext(ExpenceContext);
@@ -28,11 +29,12 @@ function ManageExpence({route, navigation}) {
         navigation.goBack();
     }
 
-    function confirmHandler(expenceData) {
+    async function confirmHandler(expenceData) {
         if (isEditing) {
             expencesContext.updateExpence(editedExpenceId, expenceData);
         } else {
-            expencesContext.addExpence(expenceData);
+            const id = await storeExpence(expenceData);
+            expencesContext.addExpence({...expenceData, id});
         }
         navigation.goBack();
     }

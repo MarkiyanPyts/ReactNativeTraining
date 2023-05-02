@@ -1,80 +1,20 @@
 import { createContext, useReducer } from "react";
 
-const DUMMY_EXPENCES = [
-    {
-        id: 'e1',
-        description: 'Toilet Paper',
-        amount: 94.12,
-        date: new Date('2021-12-19'),
-    },
-    {
-        id: 'e2',
-        description: 'New TV',
-        amount: 799.49,
-        date: new Date('2022-01-19'),
-    },
-    {
-        id: 'e3',
-        description: 'Car Insurance',
-        amount: 294.67,
-        date: new Date('2022-02-19'),
-    },
-    {
-        id: 'e4',
-        description: 'New Desk (Wooden)',
-        amount: 450,
-        date: new Date('2022-03-19'),
-    },
-    {
-        id: 'e5',
-        description: 'New Desk (Glass)',
-        amount: 100,
-        date: new Date('2022-04-19'),
-    },
-    {
-        id: 'e6',
-        description: 'New Desk (Metal)',
-        amount: 200,
-        date: new Date('2022-05-19'),
-    },
-    {
-        id: 'e7',
-        description: 'New Desk (Plastic)',
-        amount: 300,
-        date: new Date('2022-06-19'),
-    },
-    {
-        id: 'e8',
-        description: 'New Desk (Paper)',
-        amount: 400,
-        date: new Date('2022-07-19'),
-    },
-    {
-        id: 'e9',
-        description: 'New Desk (Cloth)',
-        amount: 500,
-        date: new Date('2022-08-19'),
-    },
-    {
-        id: 'e10',
-        description: 'New Desk (Ceramic)',
-        amount: 600,
-        date: new Date(),
-    },
-];
-
 export const ExpenceContext = createContext({
     expences: [],
     addExpence: ({description, amount, date}) => {},
     deleteExpence: (id) => {},
+    setExpences: (expences) => {},
     updateExpence: (id, {description, amount, date}) => {},
 });
 
 function expencesReducer(state, action) {
     switch (action.type) {
         case 'ADD':
-            const id = new Date().toString() + Math.random().toString();
-            return [{...action.payload, id}, ...state,];   
+            return [action.payload, ...state,];
+        case 'SET':
+            const inverted = action.payload.reverse();
+            return inverted;
         case 'UPDATE':
             const updatableExpenceIndex = state.findIndex(expence => expence.id === action.payload.id);
             const updatedExpence = {...state[updatableExpenceIndex], ...action.payload.data};
@@ -91,10 +31,14 @@ function expencesReducer(state, action) {
 }
 
 function ExpencesContextProvider ({children}) {
-    const [expencesState, dispatch] = useReducer(expencesReducer, DUMMY_EXPENCES);
+    const [expencesState, dispatch] = useReducer(expencesReducer, []);
 
     function addExpence(expenceData) {
         dispatch({type: 'ADD', payload: expenceData});
+    }
+
+    function setExpences(expences) {
+        dispatch({type: 'SET', payload: expences});
     }
 
     function deleteExpence(id) {
@@ -110,6 +54,7 @@ function ExpencesContextProvider ({children}) {
         addExpence,
         deleteExpence,
         updateExpence,
+        setExpences,
     }
 
     return <ExpenceContext.Provider value={value}>{children}</ExpenceContext.Provider>
