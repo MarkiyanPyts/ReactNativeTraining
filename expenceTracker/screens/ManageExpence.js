@@ -6,9 +6,11 @@ import { ExpenceContext } from "../store/expence-context";
 import ExpenceForm from "../components/ManageExpence/ExpenceForm";
 import { storeExpence, updateExpence, deleteExpence } from "../util/http";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
+import ErrorOverlay from "../components/UI/ErrorOverlay";
 
 function ManageExpence({route, navigation}) {
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState(); // [error, setError
     const expencesContext = useContext(ExpenceContext);
     const editedExpenceId = route.params?.expenceId;
     const isEditing = !!editedExpenceId;
@@ -23,11 +25,16 @@ function ManageExpence({route, navigation}) {
 
     async function deleteExpenceHandler() {
         setIsSubmitting(true);
-        await deleteExpence(editedExpenceId);
-        setIsSubmitting(false);
-        expencesContext.deleteExpence(editedExpenceId);
+        try {
+            await deleteExpence(editedExpenceId);
+            expencesContext.deleteExpence(editedExpenceId);
         
-        navigation.goBack();
+            navigation.goBack();
+        } catch (error) {
+            setError('Could not delete expence');
+            setIsSubmitting(false);
+        }
+        
     }
 
     function cancelHandler() {
@@ -36,15 +43,27 @@ function ManageExpence({route, navigation}) {
 
     async function confirmHandler(expenceData) {
         setIsSubmitting(true);
-        if (isEditing) {
-            expencesContext.updateExpence(editedExpenceId, expenceData);
-            await updateExpence(editedExpenceId, expenceData);
-        } else {
-            const id = await storeExpence(expenceData);
-            expencesContext.addExpence({...expenceData, id});
+        try {
+            if (isEditing) {
+                expencesContext.updateExpence(editedExpenceId, expenceData);
+                await updateExpence(editedExpenceId, expenceData);
+            } else {
+                const id = await storeExpence(expenceData);
+                expencesContext.addExpence({...expenceData, id});
+            }
+            navigation.goBack();
+        } catch (error) {
+            setError('Could not save expence, please try again');
+            setIsSubmitting(false);
         }
-        setIsSubmitting(false);
-        navigation.goBack();
+    }
+
+    function errorHandler() {
+        setError(null);
+    }
+
+    if (error && !isSubmitting) {
+        return <ErrorOverlay message={error} onConfirm={errorHandler} />
     }
 
     if (isSubmitting) {
