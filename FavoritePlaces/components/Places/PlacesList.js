@@ -9,7 +9,7 @@ function PlacesList({places}) {
             <Text style={styles.fallbackText}>No Places Added Yet</Text>
         </View>
     }
-    return <FlatList style={styles.list} data={places} keyExtractor={(item) => {item.id}} renderItem={({item}) => {
+    return <FlatList style={styles.list} data={places} keyExtractor={(item) => item.id} renderItem={({item}) => {
         return <PlaceItem place={item} />
     }} />
 }
