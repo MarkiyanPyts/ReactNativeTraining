@@ -3,7 +3,7 @@ import { Colors } from "../../constants/colors";
 
 function PlaceItem({place, onSelect}) {
     return (
-        <Pressable onPress={onSelect} style={({pressed}) => [styles.item, pressed && styles.pressed]}>
+        <Pressable onPress={onSelect.bind(this, place.id)} style={({pressed}) => [styles.item, pressed && styles.pressed]}>
             <Image style={styles.image} source={{ uri: place.imageUri }} />
             <View style={styles.info}>
                 <Text style={styles.title}>{place.titile}</Text>
