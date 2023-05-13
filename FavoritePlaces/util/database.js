@@ -93,7 +93,14 @@ export function fetchPlaceDetails(id) {
             tx.executeSql(`SELECT * FROM places WHERE id = ?`,
             [id],
             (_, result) => {
-                resolve(result.rows._array[0]);
+                const bdPlace = result.rows._array[0];
+                const place = new Place(bdPlace.title, bdPlace.imageUri, {
+                    address: bdPlace.address,
+                    lat: bdPlace.lat,
+                    lng: bdPlace.lng
+                },
+                bdPlace.id);
+                resolve(place);
             },
             (_, error) => { 
                 reject(error);
