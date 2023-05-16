@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "recipes",
+    "name": "My Recipes Book",
     "slug": "recipes",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -16,16 +16,25 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "buildNumber": "1.0.0",
+      "bundleIdentifier": "com.markiyanpyts.recipes"
     },
     "android": {
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.markiyanpyts.recipes"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f82386ac-1983-4d6d-ad9e-830770e7b6bf"
+      }
     }
   }
 }
