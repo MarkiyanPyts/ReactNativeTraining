@@ -1,8 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { Button } from 'react-native';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Platform } from 'react-native';
 import * as Notifications from 'expo-notifications';
 import { useEffect } from 'react';
+import { Alert } from 'react-native';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -32,6 +33,37 @@ const requestPermissionsAsync = async () => {
 };
 
 export default function App() {
+  useEffect(() => {
+    async function configurePushNotifications() {
+      const { status } = await Notifications.getPermissionsAsync()
+      let finalStatus = status;
+
+      if (finalStatus !== 'granted') {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+
+      if (finalStatus !== 'granted') {
+        Alert('Failed to get push token for push notification!', 'Please check if everything is configured correctly', [{ text: 'Okay' }]);
+        return;
+      }
+
+      const pushTokenData = await Notifications.getExpoPushTokenAsync();
+      console.log("pushTokenData:", pushTokenData);
+
+      if (Platform.OS === 'android') {
+        Notifications.setNotificationChannelAsync('default', {
+          name: 'default',
+          importance: Notifications.AndroidImportance.DEFAULT,
+          vibrationPattern: [0, 250, 250, 250],
+          lightColor: '#FF231F7C',
+        })
+      }
+    }
+
+    configurePushNotifications();
+  }, []);
+
   useEffect(() => {
     const subscription1 = Notifications.addNotificationReceivedListener((notification) => {
       console.log("notification received:", notification);
@@ -69,9 +101,26 @@ export default function App() {
 
     console.log(notification);
   }
+
+  async function sendPushNotificationHandler() {
+    console.log("sendPushNotification");
+    fetch('https://exp.host/--/api/v2/push/send', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        to: `ExponentPushToken[QZBxPmJt2e1xnJQYJ-EKSj]`,
+        title: 'Look at that notification',
+        body: "I'm so proud of myself!",
+      }),
+    })
+  }
+
   return (
     <View style={styles.container}>
       <Button title="Schedule Notification" onPress={scheduleNotificationHandler} />
+      <Button title="Send Push Notification" onPress={sendPushNotificationHandler}/>
       <Text>Open up App.js to start working on your app!</Text>
       <StatusBar style="auto" />
     </View>
